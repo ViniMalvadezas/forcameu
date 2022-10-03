@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lá em porto não tem forca meu</title>
+    <style>
+        .inp {
+            color: green;
+            width: 180px;
+            height: 34px;
+            text-align: center;
+            border-color: rgb(49, 168, 49);
+            border-style: solid;
+        }
+
+        .forquinha {
+            width: 520px;
+            height: 300px;
+        }
+
+        .letras {
+            font-size: 50px;
+
+        }
+
+        .letra {
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <center>
+        <br><br><br>
+        <h1 id="test">🥵 Forca dos Guri 🥵</h1> <br>
+
+        <input id="palavra" class="inp" placeholder="Digite uma Palavra!">
+        <br><br>
+
+        <button id="block" onclick="transforma()" type="button" class="btn btn-success btn-md">
+            Lets Bora!
+        </button>
+        <button id="blockk" onclick="verificarLetra()" type="button" class="btn btn-success btn-md">
+            Letra
+        </button>
+        <br>
+        &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <img id="boneco" class="forquinha" src="Forca.png" alt="">
+
+        <h3 class="letras" id="letras"></h3>
+        <h3 class="letra" id="fail"></h3>
+    </center>
+
+</body>
+
+</html>
+
+<script>
+    let palavraInteira = ""
+    let morreu = 0
+    let ganhou = 0
+    let perdeu = 0
+    let ps = []
+    let array
+    var resposta = ""
+
+    document.getElementById("blockk").disabled = true
+
+    function transforma() {
+        var palavra = document.getElementById("palavra").value
+        if (palavra == "") {
+            alert("Digite uma palavra!")
+        }
+        else {
+            palavraInteira = palavra
+            array = palavra.split('')
+            for (var pos = 0; pos < array.length; pos++) {
+                resposta += " _ "
+                ps.push(" _ ")
+            }
+            document.getElementById("letras").innerHTML = resposta
+            document.getElementById("palavra").value = ""
+
+            document.getElementById("block").disabled = true
+            document.getElementById("blockk").disabled = false
+        }
+    }
+
+    function verificarLetra() {
+        var letra = document.getElementById("palavra").value
+        var letraa = letra.split('')
+        var erro = 0
+        if (letra == "") {
+            alert("Digite uma letra!")
+        }
+        else {
+            if (letraa.length > 1) {
+                alert("Digite apenas uma letra!")
+            }
+            else {
+                for (var pos = 0; pos < array.length; pos++) {
+                    if (array[pos] == letra) {
+                        montaForca()
+                        erro++
+                    }
+                }
+                if (erro == 0) {
+                    document.getElementById("palavra").value = null
+                    document.getElementById("fail").innerHTML += letra
+                    perdeu++
+                    morreu++
+                    bonequinho()
+                }
+                if (perdeu == 6) {
+                    document.getElementById("blockk").disabled = true
+                    setTimeout(function () {
+                        alert("Você perdeu!")
+                    }, 700)
+                }
+                if (ganhou == array.length) {
+                    document.getElementById("blockk").disabled = true
+                    setTimeout(function () {
+                        alert("Você ganhou!")
+                    }, 700)
+                    document.getElementById("boneco").src = "ganhou.png"
+                }
+            }
+        }
+    }
+
+
+
+    function montaForca() {
+        resposta = ""
+        var letra = document.getElementById("palavra").value
+        for (var pos = 0; pos < array.length; pos++) {
+            if (ps[pos] == " _ ") {
+                if (array[pos] == letra) {
+                    resposta += letra
+                    ps[pos] = letra
+                    ganhou++
+                }
+                else {
+                    resposta += " _ "
+                }
+            }
+            else {
+                ps[pos] = array[pos]
+                resposta += array[pos]
+            }
+        }
+        document.getElementById("letras").innerHTML = resposta
+        document.getElementById("palavra").value = null
+    }
+    function bonequinho() {
+
+        if (morreu == 1) {
+            document.getElementById("boneco").src = "Cabeca.png"
+        }
+        else if (morreu == 2) {
+            document.getElementById("boneco").src = "Torso.png"
+        }
+        else if (morreu == 3) {
+            document.getElementById("boneco").src = "Braco1.png"
+        }
+        else if (morreu == 4) {
+            document.getElementById("boneco").src = "Braco2.png"
+        }
+        else if (morreu == 5) {
+            document.getElementById("boneco").src = "Perna1.png"
+        }
+        else {
+            document.getElementById("boneco").src = "Perdeu.png"
+            document.getElementById("letras").innerHTML = palavraInteira
+            document.getElementById("fail").innerHTML = ""
+            setTimeout(function () {
+                document.getElementById("boneco").src = "cavaloSorrindo.jpeg"
+            }, 10000)
+        }
+    }
+
+</script>
